@@ -322,16 +322,16 @@
         <h2>지금 사전 신청하면<br>엔롤리 1호 학원</h2>
         <p>첫 3개월 50% 할인 + 1호 학원 인증 배지 + 신기능 우선 베타. 선착순 혜택입니다.</p>
       </div>
-      <div class="sform">
-        <input class="finp" type="text" placeholder="학원 이름" />
-        <select class="fsel">
+      <form class="sform" id="signupForm" onsubmit="return submitSignup(event)">
+        <input class="finp" type="text" id="fName" placeholder="학원 이름" required />
+        <select class="fsel" id="fIndustry" required>
           <option value="" disabled selected>업종 선택</option>
           <option>수영</option><option>태권도</option><option>체조·발레</option><option>보습·단과</option><option>공연예술 (악기·연극·뮤지컬)</option><option>기타</option>
         </select>
-        <input class="finp" type="text" placeholder="원장님 연락처" />
-        <button class="sbtn" onclick="alert('사전 신청이 접수되었습니다!\n빠르게 연락드리겠습니다.')">사전 신청하기 →</button>
-        <p class="fnote">개인정보는 서비스 안내 목적으로만 활용됩니다</p>
-      </div>
+        <input class="finp" type="text" id="fPhone" placeholder="원장님 연락처" required />
+        <button class="sbtn" type="submit" id="signupBtn">사전 신청하기 →</button>
+        <p class="fnote" id="signupNote">개인정보는 서비스 안내 목적으로만 활용됩니다</p>
+      </form>
     </div>
   </div>
 </section>
@@ -370,6 +370,43 @@ function toggle(el){
   const isOpen=item.classList.contains('open');
   document.querySelectorAll('.fqi').forEach(i=>{i.classList.remove('open');i.querySelector('.ico').textContent='+';});
   if(!isOpen){item.classList.add('open');ico.textContent='−';}
+}
+
+const SIGNUP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyaPHCQ9d0sdtGf23byS6BFgOcZ8hNIRMQgKZGcSlsUlC44AOTExsxZAM81ocDNXSEgIg/exec';
+
+function submitSignup(evt){
+  evt.preventDefault();
+  const btn = document.getElementById('signupBtn');
+  const note = document.getElementById('signupNote');
+  const payload = {
+    name: document.getElementById('fName').value.trim(),
+    industry: document.getElementById('fIndustry').value,
+    phone: document.getElementById('fPhone').value.trim(),
+  };
+
+  btn.disabled = true;
+  btn.textContent = '전송 중...';
+
+  // Apps Script 웹앱은 CORS 프리플라이트를 지원하지 않아 no-cors로 발송한다.
+  // 응답 본문은 읽을 수 없지만(opaque), 네트워크 요청 자체가 성공하면 접수된 것으로 간주한다.
+  fetch(SIGNUP_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload),
+  })
+    .then(() => {
+      btn.textContent = '✓ 신청 완료!';
+      note.textContent = '신청이 접수되었습니다. 빠르게 연락드리겠습니다.';
+      document.getElementById('signupForm').reset();
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = '사전 신청하기 →';
+      note.textContent = '전송에 실패했습니다. 잠시 후 다시 시도해주세요.';
+    });
+
+  return false;
 }
 </script>
 </body>
