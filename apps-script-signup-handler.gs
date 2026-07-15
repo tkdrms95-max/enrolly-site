@@ -26,16 +26,17 @@ function doPost(e) {
 
     // 첫 행이 비어있으면 헤더 추가
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["접수일시", "학원 이름", "업종", "원장님 연락처"]);
+      sheet.appendRow(["접수일시", "학원 이름", "업종", "원장님 연락처", "유입 채널"]);
     }
 
     const data = JSON.parse(e.postData.contents);
     const name = data.name || "";
     const industry = data.industry || "";
     const phone = data.phone || "";
+    const ref = data.ref || "direct";
     const now = new Date();
 
-    sheet.appendRow([now, name, industry, phone]);
+    sheet.appendRow([now, name, industry, phone, ref]);
 
     // 이메일 알림 발송
     MailApp.sendEmail({
@@ -46,6 +47,7 @@ function doPost(e) {
         "학원 이름: " + name + "\n" +
         "업종: " + industry + "\n" +
         "연락처: " + phone + "\n" +
+        "유입 채널: " + ref + "\n" +
         "접수 시각: " + now.toLocaleString("ko-KR"),
     });
 

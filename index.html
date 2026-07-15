@@ -392,18 +392,36 @@ function toggle(el){
 
 const SIGNUP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyaPHCQ9d0sdtGf23byS6BFgOcZ8hNIRMQgKZGcSlsUlC44AOTExsxZAM81ocDNXSEgIg/exec';
 
+// 추천 채널 파라미터: ?ref=seomyeongseok, ?ref=kimdonghun 등으로 유입 채널을 구분한다.
+// 세션 동안 유지되도록 sessionStorage에 저장해, 랜딩 후 다른 페이지를 거쳐 신청해도 값이 남는다.
+function getReferralSource(){
+  const params = new URLSearchParams(window.location.search);
+  const fromUrl = params.get('ref');
+  if (fromUrl) {
+    sessionStorage.setItem('enrolly_ref', fromUrl);
+    return fromUrl;
+  }
+  return sessionStorage.getItem('enrolly_ref') || 'direct';
+}
+
 function submitSignup(evt){
   evt.preventDefault();
   const btn = document.getElementById('signupBtn');
   const note = document.getElementById('signupNote');
+  const ref = getReferralSource();
   const payload = {
     name: document.getElementById('fName').value.trim(),
     industry: document.getElementById('fIndustry').value,
     phone: document.getElementById('fPhone').value.trim(),
+    ref: ref,
   };
 
   btn.disabled = true;
   btn.textContent = '전송 중...';
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'generate_lead', { referral_source: ref });
+  }
 
   // Apps Script 웹앱은 CORS 프리플라이트를 지원하지 않아 no-cors로 발송한다.
   // 응답 본문은 읽을 수 없지만(opaque), 네트워크 요청 자체가 성공하면 접수된 것으로 간주한다.
