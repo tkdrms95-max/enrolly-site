@@ -74,12 +74,14 @@
     .paybtn{background:var(--coral);color:#fff;font-weight:800;font-size:15px;padding:14px;border-radius:10px;text-align:center;}
     .sec{padding:88px 0;}
     .sec-alt{padding:88px 0;background:var(--bg2);}
-    .partners{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+    .partners{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;}
     .plabel{text-align:center;font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.04em;margin-bottom:28px;}
-    .plogos{display:flex;justify-content:center;align-items:center;gap:56px;flex-wrap:wrap;}
-    .plogos img{height:52px;width:auto;filter:grayscale(100%);opacity:.55;transition:filter .2s,opacity .2s;}
-    .plogos img:hover{filter:grayscale(0%);opacity:1;}
-    @media(max-width:600px){.plogos{gap:32px;}.plogos img{height:40px;}}
+    .pmarquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);}
+    .plogos{display:flex;align-items:center;gap:72px;width:max-content;animation:plogos-scroll 22s linear infinite;}
+    .plogos img{height:52px;width:auto;flex-shrink:0;}
+    .pmarquee:hover .plogos{animation-play-state:paused;}
+    @keyframes plogos-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    @media(max-width:600px){.plogos{gap:40px;}.plogos img{height:40px;}}
     .sh{text-align:center;margin-bottom:56px;}
     .ey{font-size:13px;font-weight:800;color:var(--coral);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;}
     h2{font-size:38px;font-weight:800;letter-spacing:-.035em;line-height:1.2;word-break:keep-all;}
@@ -329,9 +331,13 @@
 <section class="partners">
   <div class="wrap">
     <div class="plabel">함께하고 있는 파트너</div>
-    <div class="plogos">
-      <img src="assets/partners/ahangs-logo.png" alt="아행스 어린이 스포츠클럽" loading="lazy" />
-      <img src="assets/partners/leeheeseong-bjj-logo.png" alt="이희성주짓수아카데미 일산" loading="lazy" />
+    <div class="pmarquee">
+      <div class="plogos">
+        <img src="assets/partners/ahangs-logo.png" alt="아행스 어린이 스포츠클럽" loading="lazy" />
+        <img src="assets/partners/leeheeseong-bjj-logo.png" alt="이희성주짓수아카데미 일산" loading="lazy" />
+        <img src="assets/partners/ahangs-logo.png" alt="" aria-hidden="true" loading="lazy" />
+        <img src="assets/partners/leeheeseong-bjj-logo.png" alt="" aria-hidden="true" loading="lazy" />
+      </div>
     </div>
   </div>
 </section>
