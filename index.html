@@ -35,7 +35,7 @@
     nav{position:sticky;top:0;z-index:999;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
     .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px;}
     .logo{font-size:22px;font-weight:800;letter-spacing:-.03em;display:flex;align-items:center;gap:8px;}
-    .logo-icon{width:32px;height:32px;background:var(--coral);border-radius:9px;display:grid;place-items:center;}
+    .logo-icon{width:32px;height:32px;border-radius:9px;display:block;}
     .nav-links{display:flex;gap:32px;}
     .nav-links a{font-size:15px;font-weight:600;color:var(--ink2);}
     .nav-links a:hover{color:var(--ink);}
@@ -177,9 +177,7 @@
 <nav>
   <div class="wrap nav-in">
     <a href="#" class="logo">
-      <div class="logo-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
-      </div>
+      <img class="logo-icon" src="assets/brand/enrolly-icon.svg" alt="" aria-hidden="true" />
       엔롤리
     </a>
     <div class="nav-links">
@@ -281,9 +279,9 @@
     <div class="ig">
       <div class="ic"><div class="iico">🏊</div><h3>수영</h3><p>등급제 연동·레인 배정</p></div>
       <div class="ic"><div class="iico">🥋</div><h3>태권도</h3><p>승급·심사 관리</p></div>
+      <div class="ic"><div class="iico">🥋</div><h3>무도</h3><p>유도·주짓수·합기도 등</p></div>
       <div class="ic"><div class="iico">🩰</div><h3>체조·발레</h3><p>급수·발표회 관리</p></div>
       <div class="ic"><div class="iico">📚</div><h3>보습·단과</h3><p>과목·시간대 관리</p></div>
-      <div class="ic"><div class="iico">🥋</div><h3>무도</h3><p>유도·주짓수·합기도 등</p></div>
     </div>
   </div>
 </section>
@@ -397,7 +395,7 @@
         <input class="finp" type="text" id="fName" placeholder="학원 이름" required />
         <select class="fsel" id="fIndustry" required>
           <option value="" disabled selected>업종 선택</option>
-          <option>수영</option><option>태권도</option><option>체조·발레</option><option>보습·단과</option><option>무도 (유도·주짓수·합기도 등)</option><option>기타</option>
+          <option>수영</option><option>태권도</option><option>무도 (유도·주짓수·합기도 등)</option><option>체조·발레</option><option>보습·단과</option><option>기타</option>
         </select>
         <input class="finp" type="text" id="fPhone" placeholder="원장님 연락처" required />
         <button class="sbtn" type="submit" id="signupBtn">도입 상담 신청하기 →</button>
